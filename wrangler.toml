@@ -1,0 +1,16 @@
+name = "kanji-jlpt-api"
+main = "workers/index.js"
+compatibility_date = "2024-09-01"
+
+# ------------------------------------------------------------------
+# Binding ke Cloudflare D1 Database
+# Setelah membuat database dengan:
+#   wrangler d1 create kanji-db
+# Salin "database_id" yang muncul ke bawah ini.
+# ------------------------------------------------------------------
+[[d1_databases]]
+binding = "DB"                # diakses di kode sebagai env.DB
+database_name = "kanji-db"
+database_id = "GANTI_DENGAN_DATABASE_ID_ANDA"
+
+# Free tier Cloudflare Workers sudah cukup untuk aplikasi ini.
