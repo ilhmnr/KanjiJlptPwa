@@ -22,6 +22,24 @@ CREATE TABLE IF NOT EXISTS kanji (
 CREATE INDEX IF NOT EXISTS idx_kanji_level ON kanji(level);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_kanji_level_nomor ON kanji(level, nomor);
 
+-- Tabel kosakata (kotoba) Minna no Nihongo, dikelompokkan per Bab (1-50)
+CREATE TABLE IF NOT EXISTS kotoba (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  bab INTEGER NOT NULL,                    -- nomor bab, 1-50
+  nomor INTEGER NOT NULL,                  -- urutan kata dalam bab
+  kotoba TEXT NOT NULL,                    -- kata dalam huruf Jepang, contoh: わたし
+  furigana TEXT,                            -- cara baca (hiragana/katakana)
+  romaji TEXT,                              -- romanisasi, contoh: watashi
+  jenis_kata TEXT,                          -- kelas kata, contoh: kata benda / kata kerja
+  arti TEXT NOT NULL,                       -- arti dalam Bahasa Indonesia
+  contoh_kalimat TEXT,                      -- kalimat contoh
+  contoh_kalimat_arti TEXT,                 -- arti kalimat contoh
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_kotoba_bab ON kotoba(bab);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_kotoba_bab_nomor ON kotoba(bab, nomor);
+
 -- Tabel user sederhana (untuk fitur sinkronisasi akun di masa depan)
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,             -- uuid, dibuat di sisi client atau saat registrasi

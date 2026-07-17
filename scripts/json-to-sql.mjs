@@ -36,3 +36,24 @@ for (const level of ['n5', 'n4']) {
   writeFileSync(outPath, sql, 'utf-8');
   console.log(`Generated ${outPath} (${data.length} kanji)`);
 }
+
+// --- Kosakata Minna no Nihongo (kotoba) ---
+function buildKotobaInsert(rows) {
+  const cols = [
+    'bab', 'nomor', 'kotoba', 'furigana', 'romaji',
+    'jenis_kata', 'arti', 'contoh_kalimat', 'contoh_kalimat_arti'
+  ];
+  const values = rows.map(r => `(${cols.map(c => esc(r[c])).join(', ')})`).join(',\n  ');
+  return `INSERT INTO kotoba (${cols.join(', ')}) VALUES\n  ${values};\n`;
+}
+
+{
+  const jsonPath = path.join(DB_DIR, 'kotoba_minna.json');
+  const data = JSON.parse(readFileSync(jsonPath, 'utf-8'));
+  const sql = `-- Auto-generated dari kotoba_minna.json — jangan edit manual, edit file JSON lalu jalankan ulang script ini\n` +
+    `DELETE FROM kotoba;\n` +
+    buildKotobaInsert(data);
+  const outPath = path.join(DB_DIR, 'seed_kotoba.sql');
+  writeFileSync(outPath, sql, 'utf-8');
+  console.log(`Generated ${outPath} (${data.length} kotoba)`);
+}

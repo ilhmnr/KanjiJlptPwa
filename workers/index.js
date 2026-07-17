@@ -48,6 +48,11 @@ export default {
         return await handleGetKanjiDetail(kanjiDetailMatch[1], env);
       }
 
+      // GET /api/kotoba  (kosakata Minna no Nihongo, filter dengan ?bab=1)
+      if (pathname === '/api/kotoba' && method === 'GET') {
+        return await handleGetKotobaList(url, env);
+      }
+
       // GET /api/stats
       if (pathname === '/api/stats' && method === 'GET') {
         return await handleGetStats(url, env);
@@ -105,6 +110,30 @@ async function handleGetKanjiList(url, env) {
 
   const stmt = env.DB.prepare(query).bind(...params);
   const { results } = await stmt.all();
+  return jsonResponse({ data: results, total: results.length });
+}
+
+async function handleGetKotobaList(url, env) {
+  const bab = url.searchParams.get('bab');       // filter 1 bab tertentu
+  const search = url.searchParams.get('search');
+
+  let query = 'SELECT * FROM kotoba WHERE 1=1';
+  const params = [];
+
+  if (bab) {
+    query += ' AND bab = ?';
+    params.push(Number(bab));
+  }
+
+  if (search) {
+    query += ' AND (kotoba LIKE ? OR arti LIKE ? OR romaji LIKE ? OR furigana LIKE ?)';
+    const like = `%${search}%`;
+    params.push(like, like, like, like);
+  }
+
+  query += ' ORDER BY bab, nomor ASC';
+
+  const { results } = await env.DB.prepare(query).bind(...params).all();
   return jsonResponse({ data: results, total: results.length });
 }
 

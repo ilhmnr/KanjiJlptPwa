@@ -602,3 +602,15 @@ img { max-width: 100%; display: block; }
   transition: background var(--transition-base), transform var(--transition-base);
 }
 .filter-chip:active { transform: scale(0.95); }
+
+/* -------------------- Kotoba (Mina no Nihongo) -------------------- */
+.kotoba-big {
+  font-size: clamp(42px, 14vw, 64px);
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 4px 0 16px;
+  word-break: keep-all;
+}
+.section-item-empty { opacity: 0.5; }
+.section-item-status.empty { color: var(--color-text-muted); }

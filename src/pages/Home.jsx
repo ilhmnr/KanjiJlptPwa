@@ -43,6 +43,11 @@ export default function Home() {
       <div className="flex-col gap-16">
         <LevelCard level="N5" subtitle="Kanji tingkat dasar" total={n5.length} color="#2563EB" />
         <LevelCard level="N4" subtitle="Kanji tingkat pemula-menengah" total={n4.length} color="#0EA5E9" />
+        <button className="card card-tappable level-card" style={{ '--accent': '#7C3AED' }} onClick={() => navigate('/kotoba')}>
+          <span className="level-card-icon" aria-hidden="true">🈶</span>
+          <span className="level-card-title">Kotoba Mina no Nihongo</span>
+          <span className="level-card-subtitle text-muted">Kosakata Bab 1 - 50</span>
+        </button>
       </div>
 
       <div className="home-quick-links mt-24">

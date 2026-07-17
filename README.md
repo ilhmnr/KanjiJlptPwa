@@ -8,8 +8,9 @@ Bisa langsung dipakai offline setelah dibuka pertama kali, dan bisa "Ditambahkan
 
 ## ✨ Fitur
 
-- Beranda dengan pilihan level **N5** / **N4**
+- Beranda dengan pilihan level **N5** / **N4** / **Kotoba Mina no Nihongo**
 - Mode **Semua Kanji** atau **Belajar Per 10 Kanji** (dibagi per bagian)
+- **Kotoba Mina no Nihongo**: kosakata Bab 1-50, bisa dipelajari **Per Bab** atau **Semua Bab**, tampilannya konsisten dengan halaman latihan kanji (kata, hiragana, romaji, arti, jenis kata)
 - Halaman belajar 1 kanji per layar, navigasi **swipe kiri/kanan** + tombol Sebelumnya/Berikutnya
 - **Flashcard** (tap untuk membalik kartu)
 - **Quiz** 2 arah: Kanji → Arti dan Arti → Kanji
@@ -101,6 +102,10 @@ npm run db:seed:n4
 
 > **Catatan:** Dataset yang disertakan adalah starter set (50 kanji N5, 30 kanji N4) sebagai contoh struktur data yang valid dan siap pakai. Silakan lengkapi hingga 103 kanji N5 dan 170 kanji N4 sesuai daftar resmi JLPT dengan menambah entri pada file JSON tersebut (format sudah konsisten, tinggal disalin/ditambah), lalu jalankan ulang perintah di atas.
 
+### Data Kosakata Mina no Nihongo
+
+Kosakata ada di `src/database/kotoba_mina_no_nihongo.json`, dengan field: `bab` (1-50), `kata`, `kanji` (isi `"-"` jika tidak ada bentuk kanji), `hiragana`, `romaji`, `arti`, `kelas_kata`. Saat ini baru Bab 1-10 yang terisi sebagai contoh — bab lain akan tampil "Segera hadir" di halaman pilih bab sampai ditambahkan. Tambahkan objek baru dengan `bab` yang sesuai (1-50) untuk melengkapi, tidak perlu skrip tambahan karena data ini langsung dibaca dari JSON (offline).
+
 ### Langkah 5 — Deploy Worker (API)
 ```bash
 npm run worker:deploy
@@ -158,4 +163,3 @@ Semua menggunakan tier gratis Cloudflare.
 
 - Endpoint `POST /api/progress` & `GET /api/progress/:userId` sudah siap dipakai untuk fitur login/akun — saat ini progress disimpan dengan id anonim per perangkat (`kanji_anon_user_id` di Local Storage) dan disinkronkan secara best-effort ke D1.
 - Struktur kode dipisah per tanggung jawab (`components`, `pages`, `hooks`, `database`, `workers`) agar mudah dikembangkan, misalnya menambah level JLPT lain (N3/N2/N1) cukup dengan menambah file JSON baru dan sedikit penyesuaian di `useKanjiData.js`.
-# KanjiJlptPwa

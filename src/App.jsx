@@ -13,6 +13,9 @@ import Quiz from './pages/Quiz.jsx';
 import Favorites from './pages/Favorites.jsx';
 import Stats from './pages/Stats.jsx';
 import Search from './pages/Search.jsx';
+import KotobaMenu from './pages/KotobaMenu.jsx';
+import KotobaBabList from './pages/KotobaBabList.jsx';
+import KotobaStudy from './pages/KotobaStudy.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 export default function App() {
@@ -25,7 +28,7 @@ export default function App() {
   }, [darkMode]);
 
   // Sembunyikan bottom nav di halaman mode belajar penuh layar (fokus tanpa distraksi)
-  const hideNav = ['/study', '/flashcard', '/quiz/play'].some((p) => location.pathname.startsWith(p));
+  const hideNav = ['/study', '/flashcard', '/quiz/play', '/kotoba/study'].some((p) => location.pathname.startsWith(p));
 
   return (
     <div className="app-shell" style={hideNav ? { paddingBottom: 0 } : undefined}>
@@ -40,6 +43,9 @@ export default function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/stats" element={<Stats />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/kotoba" element={<KotobaMenu />} />
+        <Route path="/kotoba/bab" element={<KotobaBabList />} />
+        <Route path="/kotoba/study/:bab" element={<KotobaStudy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {!hideNav && <BottomNav />}
