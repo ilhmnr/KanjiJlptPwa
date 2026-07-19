@@ -28,6 +28,13 @@ import KotobaStudy from './pages/KotobaStudy.jsx';
 // Tata Bahasa
 import GrammarStudy from './pages/GrammarStudy.jsx';
 
+// Reading
+import ReadingList from './pages/ReadingList.jsx';
+import ReadingStudy from './pages/ReadingStudy.jsx';
+
+// Listening
+import ListeningQuiz from './pages/ListeningQuiz.jsx';
+
 // Umum
 import Favorites from './pages/Favorites.jsx';
 import Stats from './pages/Stats.jsx';
@@ -44,8 +51,9 @@ export default function App() {
   }, [darkMode]);
 
   // Sembunyikan bottom nav di halaman mode belajar penuh layar (fokus tanpa distraksi)
-  const FULLSCREEN_PATHS = ['/study', '/flashcard', '/quiz/play', '/kosakata-study', '/kosakata-quiz/play', '/kotoba/study', '/grammar/'];
-  const hideNav = FULLSCREEN_PATHS.some((p) => location.pathname.startsWith(p));
+  const FULLSCREEN_PATHS = ['/study', '/flashcard', '/quiz/play', '/kosakata-study', '/kosakata-quiz/play', '/kotoba/study', '/grammar/', '/listening/'];
+  const isReadingStudy = /^\/reading\/[^/]+\/[^/]+/.test(location.pathname); // beda dari /reading/:level (daftar bacaan)
+  const hideNav = isReadingStudy || FULLSCREEN_PATHS.some((p) => location.pathname.startsWith(p));
 
   return (
     <div className="app-shell" style={hideNav ? { paddingBottom: 0 } : undefined}>
@@ -74,6 +82,13 @@ export default function App() {
 
         {/* Tata Bahasa */}
         <Route path="/grammar/:level" element={<GrammarStudy />} />
+
+        {/* Reading */}
+        <Route path="/reading/:level" element={<ReadingList />} />
+        <Route path="/reading/:level/:nomor" element={<ReadingStudy />} />
+
+        {/* Listening */}
+        <Route path="/listening/:level" element={<ListeningQuiz />} />
 
         {/* Umum */}
         <Route path="/favorites" element={<Favorites />} />

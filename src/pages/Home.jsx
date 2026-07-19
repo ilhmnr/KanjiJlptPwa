@@ -6,6 +6,7 @@ import { useProgress } from '../hooks/useProgress';
 import { useKanjiByLevel } from '../hooks/useKanjiData';
 import { useKosakataByLevel } from '../hooks/useKosakataData';
 import { useGrammarByLevel } from '../hooks/useGrammarData';
+import { useReadingByLevel } from '../hooks/useReadingData';
 
 // Bangun rute "Lanjutkan Belajar" sesuai jenis materi yang terakhir dipelajari
 const CONTINUE_ROUTE = {
@@ -30,6 +31,8 @@ export default function Home() {
   const { data: kosakataN4 } = useKosakataByLevel('N4');
   const { data: grammarN5 } = useGrammarByLevel('N5');
   const { data: grammarN4 } = useGrammarByLevel('N4');
+  const { data: readingN5 } = useReadingByLevel('N5');
+  const { data: readingN4 } = useReadingByLevel('N4');
 
   return (
     <div className="page">
@@ -83,10 +86,16 @@ export default function Home() {
         <LevelCard title="Tata Bahasa N4" subtitle="Pola kalimat tingkat pemula-menengah" total={grammarN4.length} unitLabel="pola" color="#EA580C" icon="文" to="/grammar/N4" />
       </div>
 
-      <div className="home-section-title">Modul Lainnya</div>
+      <div className="home-section-title">Reading</div>
       <div className="flex-col gap-16">
-        <LevelCard title="Reading" subtitle="Bacaan & pemahaman N5 · N4" color="#16A34A" icon="読" disabled />
-        <LevelCard title="Listening" subtitle="Latihan mendengarkan N5 · N4" color="#DC2626" icon="聴" disabled />
+        <LevelCard title="Reading N5" subtitle="Bacaan & pemahaman tingkat dasar" total={readingN5.length} unitLabel="bacaan" color="#16A34A" icon="読" to="/reading/N5" />
+        <LevelCard title="Reading N4" subtitle="Bacaan & pemahaman tingkat pemula-menengah" total={readingN4.length} unitLabel="bacaan" color="#15803D" icon="読" to="/reading/N4" />
+      </div>
+
+      <div className="home-section-title">Listening</div>
+      <div className="flex-col gap-16">
+        <LevelCard title="Listening N5" subtitle="Dengar kata, lalu pilih artinya" color="#DC2626" icon="聴" to="/listening/N5" />
+        <LevelCard title="Listening N4" subtitle="Dengar kata, lalu pilih artinya" color="#B91C1C" icon="聴" to="/listening/N4" />
       </div>
 
       <div className="home-quick-links mt-24">
