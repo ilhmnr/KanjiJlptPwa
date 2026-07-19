@@ -9,6 +9,17 @@ export default function KotobaHero({ item, isFavorite, isLearned, onToggleFavori
   if (!item) return null;
   const hasExample = item.contoh_kalimat && item.contoh_kalimat !== '-';
 
+  // Panjang kata di modul ini sangat bervariasi (1 karakter s/d frasa panjang seperti
+  // "どうぞよろしくお願します"), beda dengan modul Kanji yang selalu 1 karakter.
+  // Skalakan ukuran font berdasarkan panjang teks supaya frasa panjang tetap wrap rapi
+  // dan tidak meluber ke luar kartu.
+  const len = item.kotoba.length;
+  const kotobaFontSize =
+    len <= 4 ? 'clamp(32px, 12vw, 56px)'
+      : len <= 7 ? 'clamp(26px, 9vw, 42px)'
+      : len <= 11 ? 'clamp(20px, 7vw, 32px)'
+      : 'clamp(16px, 5.5vw, 24px)';
+
   return (
     <div className="card kanji-hero">
       <button
@@ -22,7 +33,7 @@ export default function KotobaHero({ item, isFavorite, isLearned, onToggleFavori
 
       <div className="tag" style={{ marginBottom: 10 }}>Bab {item.bab}{item.jenis_kata ? ` · ${item.jenis_kata}` : ''}</div>
 
-      <div className="kotoba-big font-jp" lang="ja">{item.kotoba}</div>
+      <div className="kotoba-big font-jp" lang="ja" style={{ fontSize: kotobaFontSize }}>{item.kotoba}</div>
       <SpeakButton text={item.kotoba} />
 
       <div className="kanji-reading-group" style={{ borderTop: 'none' }}>
