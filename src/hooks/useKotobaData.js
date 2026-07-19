@@ -1,27 +1,20 @@
 import { useMemo } from 'react';
-import kotobaRaw from '../database/kotoba_mina_no_nihongo.json';
+import kotobaRaw from '../database/kotoba_minna.json';
 
 export const TOTAL_BAB = 50; // Minna no Nihongo I & II: Bab 1 - 50
 
-// Tambahkan id unik yang stabil (bab + urutan dalam bab) supaya konsisten
-// dipakai sebagai key progress/favorit, sama seperti skema pada data kanji.
-const BUNDLED = (() => {
-  const counters = {};
-  return kotobaRaw.map((item) => {
-    counters[item.bab] = (counters[item.bab] || 0) + 1;
-    return { id: `kotoba-${item.bab}-${counters[item.bab]}`, ...item };
-  });
-})();
+// Tambahkan id unik & stabil (bab + nomor) supaya konsisten dipakai sebagai key progress/favorit
+const BUNDLED = kotobaRaw.map((item) => ({ id: `kotoba-${item.bab}-${item.nomor}`, ...item }));
 
 /** Ambil seluruh data kosakata Minna no Nihongo (semua bab yang sudah tersedia) */
 export function useKotobaData() {
   return { kotobaList: BUNDLED };
 }
 
-/** Ambil daftar kosakata untuk 1 bab tertentu */
+/** Ambil daftar kosakata untuk 1 bab tertentu, terurut berdasarkan nomor */
 export function useKotobaByBab(bab) {
   const data = useMemo(
-    () => BUNDLED.filter((k) => k.bab === Number(bab)),
+    () => BUNDLED.filter((k) => k.bab === Number(bab)).sort((a, b) => a.nomor - b.nomor),
     [bab]
   );
   return { data };

@@ -1,0 +1,28 @@
+-- Auto-generated dari kosakata_n4.json — jangan edit manual, edit file JSON lalu jalankan ulang script ini
+DELETE FROM kosakata WHERE level = 'N4';
+INSERT INTO kosakata (level, nomor, kata, kanji, hiragana, romaji, arti, kelas_kata, contoh_kalimat, contoh_hiragana, contoh_arti) VALUES
+  ('N4', '1', 'けいけん', '経験', 'けいけん', 'keiken', 'Pengalaman', 'Kata benda', 'しごとの けいけんが あります。', 'しごとの けいけんが あります。', 'Saya punya pengalaman kerja.'),
+  ('N4', '2', 'つづける', '続ける', 'つづける', 'tsuzukeru', 'Melanjutkan', 'Kata kerja', 'べんきょうを つづけます。', 'べんきょうを つづけます。', 'Saya melanjutkan belajar.'),
+  ('N4', '3', 'きかい', '機会', 'きかい', 'kikai', 'Kesempatan', 'Kata benda', 'いい きかいが ありました。', 'いい きかいが ありました。', 'Ada kesempatan yang bagus.'),
+  ('N4', '4', 'しんぱい', '心配', 'しんぱい', 'shinpai', 'Khawatir', 'Kata sifat-na', 'しんぱいしないで ください。', 'しんぱいしないで ください。', 'Tolong jangan khawatir.'),
+  ('N4', '5', 'やくそく', '約束', 'やくそく', 'yakusoku', 'Janji', 'Kata benda', 'やくそくを まもります。', 'やくそくを まもります。', 'Saya menepati janji.'),
+  ('N4', '6', 'そつぎょう', '卒業', 'そつぎょう', 'sotsugyou', 'Lulus', 'Kata benda', 'らいねん そつぎょうします。', 'らいねん そつぎょうします。', 'Saya akan lulus tahun depan.'),
+  ('N4', '7', 'しんせつ', '親切', 'しんせつ', 'shinsetsu', 'Ramah, baik hati', 'Kata sifat-na', 'あの ひとは しんせつです。', 'あの ひとは しんせつです。', 'Orang itu ramah.'),
+  ('N4', '8', 'きんちょう', '緊張', 'きんちょう', 'kinchou', 'Gugup, tegang', 'Kata benda', 'しけんの まえは きんちょうします。', 'しけんの まえは きんちょうします。', 'Saya gugup sebelum ujian.'),
+  ('N4', '9', 'せいかつ', '生活', 'せいかつ', 'seikatsu', 'Kehidupan sehari-hari', 'Kata benda', 'にほんの せいかつに なれました。', 'にほんの せいかつに なれました。', 'Saya sudah terbiasa dengan kehidupan di Jepang.'),
+  ('N4', '10', 'つたえる', '伝える', 'つたえる', 'tsutaeru', 'Menyampaikan', 'Kata kerja', 'きもちを つたえます。', 'きもちを つたえます。', 'Saya menyampaikan perasaan saya.'),
+  ('N4', '11', 'そだてる', '育てる', 'そだてる', 'sodateru', 'Membesarkan, memelihara', 'Kata kerja', 'こどもを そだてます。', 'こどもを そだてます。', 'Saya membesarkan anak.'),
+  ('N4', '12', 'きょうみ', '興味', 'きょうみ', 'kyoumi', 'Minat, ketertarikan', 'Kata benda', 'にほんごに きょうみが あります。', 'にほんごに きょうみが あります。', 'Saya tertarik dengan bahasa Jepang.'),
+  ('N4', '13', 'かんどう', '感動', 'かんどう', 'kandou', 'Terharu, terkesan', 'Kata benda', 'その えいがに かんどうしました。', 'その えいがに かんどうしました。', 'Saya terharu dengan film itu.'),
+  ('N4', '14', 'こうかん', '交換', 'こうかん', 'koukan', 'Menukar', 'Kata benda', 'でんわばんごうを こうかんしました。', 'でんわばんごうを こうかんしました。', 'Kami bertukar nomor telepon.'),
+  ('N4', '15', 'ぜんぶ', '全部', 'ぜんぶ', 'zenbu', 'Semua, seluruhnya', 'Kata benda', 'ぜんぶ たべました。', 'ぜんぶ たべました。', 'Saya makan semuanya.'),
+  ('N4', '16', 'とくべつ', '特別', 'とくべつ', 'tokubetsu', 'Khusus, istimewa', 'Kata sifat-na', 'きょうは とくべつな ひです。', 'きょうは とくべつな ひです。', 'Hari ini adalah hari yang istimewa.'),
+  ('N4', '17', 'きぼう', '希望', 'きぼう', 'kibou', 'Harapan', 'Kata benda', 'しょうらいの きぼうを はなします。', 'しょうらいの きぼうを はなします。', 'Saya bicara tentang harapan masa depan.'),
+  ('N4', '18', 'げんいん', '原因', 'げんいん', 'gen-in', 'Penyebab', 'Kata benda', 'じこの げんいんを しらべます。', 'じこの げんいんを しらべます。', 'Saya menyelidiki penyebab kecelakaan itu.'),
+  ('N4', '19', 'かんけい', '関係', 'かんけい', 'kankei', 'Hubungan', 'Kata benda', 'いい かんけいを つくります。', 'いい かんけいを つくります。', 'Saya membangun hubungan yang baik.'),
+  ('N4', '20', 'なやむ', '悩む', 'なやむ', 'nayamu', 'Bimbang, khawatir', 'Kata kerja', 'しんろに なやんでいます。', 'しんろに なやんでいます。', 'Saya sedang bimbang soal masa depan (karir).'),
+  ('N4', '21', 'みとめる', '認める', 'みとめる', 'mitomeru', 'Mengakui', 'Kata kerja', 'じぶんの まちがいを みとめます。', 'じぶんの まちがいを みとめます。', 'Saya mengakui kesalahan saya sendiri.'),
+  ('N4', '22', 'えんりょ', '遠慮', 'えんりょ', 'enryo', 'Sungkan, menahan diri', 'Kata benda', 'えんりょしないで ください。', 'えんりょしないで ください。', 'Tolong jangan sungkan.'),
+  ('N4', '23', 'しんじる', '信じる', 'しんじる', 'shinjiru', 'Percaya', 'Kata kerja', 'あなたを しんじています。', 'あなたを しんじています。', 'Saya percaya pada Anda.'),
+  ('N4', '24', 'せいちょう', '成長', 'せいちょう', 'seichou', 'Pertumbuhan', 'Kata benda', 'かいしゃが せいちょうしています。', 'かいしゃが せいちょうしています。', 'Perusahaan itu sedang bertumbuh.'),
+  ('N4', '25', 'ふあん', '不安', 'ふあん', 'fuan', 'Cemas, tidak tenang', 'Kata sifat-na', 'しょうらいが ふあんです。', 'しょうらいが ふあんです。', 'Saya cemas tentang masa depan.');

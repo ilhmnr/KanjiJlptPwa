@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../components/PageHeader.jsx';
 import { useKanjiData, useKanjiByLevel } from '../hooks/useKanjiData';
+import { useKosakataData, useKosakataByLevel } from '../hooks/useKosakataData';
+import { useKotobaData } from '../hooks/useKotobaData';
 import { useProgress } from '../hooks/useProgress';
 
 const FILTERS = [
@@ -14,15 +16,19 @@ const FILTERS = [
 export default function Stats() {
   const navigate = useNavigate();
   const { kanjiList } = useKanjiData();
-  const { data: n5 } = useKanjiByLevel('N5');
-  const { data: n4 } = useKanjiByLevel('N4');
+  const { kosakataList } = useKosakataData();
+  const { kotobaList } = useKotobaData();
+  const { data: kanjiN5 } = useKanjiByLevel('N5');
+  const { data: kanjiN4 } = useKanjiByLevel('N4');
+  const { data: kosakataN5 } = useKosakataByLevel('N5');
+  const { data: kosakataN4 } = useKosakataByLevel('N4');
   const { learnedCount, favoriteIds } = useProgress();
 
-  const total = kanjiList.length;
+  const total = kanjiList.length + kosakataList.length + kotobaList.length;
   const progressPercent = total > 0 ? Math.round((learnedCount / total) * 100) : 0;
 
   const cards = useMemo(() => ([
-    { label: 'Total Kanji', value: total, icon: '📖', color: '#2563EB' },
+    { label: 'Total Materi', value: total, icon: '📖', color: '#2563EB' },
     { label: 'Sudah Dipelajari', value: learnedCount, icon: '✔️', color: '#16A34A' },
     { label: 'Favorit', value: favoriteIds.length, icon: '⭐', color: '#F59E0B' },
     { label: 'Progress', value: `${progressPercent}%`, icon: '📈', color: '#7C3AED' }
@@ -43,28 +49,35 @@ export default function Stats() {
       </div>
 
       <div className="stats-level-breakdown card mt-16">
-        <div className="stats-row">
-          <span>Kanji N5</span>
-          <span className="text-muted">{n5.length} kanji</span>
-        </div>
-        <div className="stats-row">
-          <span>Kanji N4</span>
-          <span className="text-muted">{n4.length} kanji</span>
-        </div>
+        <div className="stats-row"><span>Kanji N5</span><span className="text-muted">{kanjiN5.length} kanji</span></div>
+        <div className="stats-row"><span>Kanji N4</span><span className="text-muted">{kanjiN4.length} kanji</span></div>
+        <div className="stats-row"><span>Kosakata N5</span><span className="text-muted">{kosakataN5.length} kata</span></div>
+        <div className="stats-row"><span>Kosakata N4</span><span className="text-muted">{kosakataN4.length} kata</span></div>
+        <div className="stats-row"><span>Kotoba Mina no Nihongo</span><span className="text-muted">{kotobaList.length} kata</span></div>
       </div>
 
-      <h2 className="section-title mt-24">Jelajahi dengan Filter</h2>
+      <h2 className="section-title mt-24">Jelajahi dengan Filter — Kanji</h2>
       <p className="text-muted" style={{ fontSize: 13 }}>Pilih level lalu filter untuk langsung mulai belajar.</p>
       {['N5', 'N4'].map((level) => (
-        <div key={level} className="mt-8">
-          <div style={{ fontWeight: 700, fontSize: 13.5, margin: '10px 0 6px' }}>{level}</div>
+        <div key={`kanji-${level}`} className="mt-8">
+          <div style={{ fontWeight: 700, fontSize: 13.5, margin: '10px 0 6px' }}>Kanji {level}</div>
           <div className="filter-chip-row">
             {FILTERS.map((f) => (
-              <button
-                key={f.key}
-                className="filter-chip"
-                onClick={() => navigate(`/study/${level}?filter=${f.key}`)}
-              >
+              <button key={f.key} className="filter-chip" onClick={() => navigate(`/study/${level}?filter=${f.key}`)}>
+                <span>{f.icon}</span> {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <h2 className="section-title mt-24">Jelajahi dengan Filter — Kosakata</h2>
+      {['N5', 'N4'].map((level) => (
+        <div key={`kosakata-${level}`} className="mt-8">
+          <div style={{ fontWeight: 700, fontSize: 13.5, margin: '10px 0 6px' }}>Kosakata {level}</div>
+          <div className="filter-chip-row">
+            {FILTERS.map((f) => (
+              <button key={f.key} className="filter-chip" onClick={() => navigate(`/kosakata-study/${level}?filter=${f.key}`)}>
                 <span>{f.icon}</span> {f.label}
               </button>
             ))}

@@ -4,50 +4,80 @@ import LevelCard from '../components/LevelCard.jsx';
 import DarkModeToggle from '../components/DarkModeToggle.jsx';
 import { useProgress } from '../hooks/useProgress';
 import { useKanjiByLevel } from '../hooks/useKanjiData';
+import { useKosakataByLevel } from '../hooks/useKosakataData';
+
+// Bangun rute "Lanjutkan Belajar" sesuai jenis materi yang terakhir dipelajari
+const CONTINUE_ROUTE = {
+  kanji: (level, nomor) => `/study/${level}?nomor=${nomor}`,
+  kosakata: (level, nomor) => `/kosakata-study/${level}?nomor=${nomor}`,
+  kotoba: (level, nomor) => `/kotoba/study/${level}?nomor=${nomor}`
+};
+const CONTINUE_LABEL = { kanji: 'Kanji', kosakata: 'Kosakata', kotoba: 'Kotoba' };
+
+function formatContinueSubtitle(type, level) {
+  if (type === 'kotoba') return level === 'all' ? 'Semua Bab' : `Bab ${level}`;
+  return level;
+}
 
 export default function Home() {
   const navigate = useNavigate();
   const { lastPosition } = useProgress();
-  const { data: n5 } = useKanjiByLevel('N5');
-  const { data: n4 } = useKanjiByLevel('N4');
+  const { data: kanjiN5 } = useKanjiByLevel('N5');
+  const { data: kanjiN4 } = useKanjiByLevel('N4');
+  const { data: kosakataN5 } = useKosakataByLevel('N5');
+  const { data: kosakataN4 } = useKosakataByLevel('N4');
 
   return (
     <div className="page">
       <div className="flex items-center justify-between mb-16">
         <div>
-          <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>漢字 Kanji JLPT</h1>
+          <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>JLPT N5 & N4</h1>
           <p className="text-muted" style={{ margin: '4px 0 0', fontSize: 13.5 }}>
-            Hafalkan kanji N5 & N4 sedikit demi sedikit, tiap hari.
+            Kanji, kosakata & kotoba dalam satu aplikasi.
           </p>
         </div>
         <DarkModeToggle />
       </div>
 
-      {lastPosition && (
+      {lastPosition && CONTINUE_ROUTE[lastPosition.type] && (
         <button
           className="card card-tappable continue-card mb-16"
-          onClick={() => navigate(`/study/${lastPosition.level}?nomor=${lastPosition.nomor}`)}
+          onClick={() => navigate(CONTINUE_ROUTE[lastPosition.type](lastPosition.level, lastPosition.nomor))}
         >
           <div>
             <div className="text-muted" style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>
               Terakhir belajar
             </div>
             <div style={{ fontWeight: 700, fontSize: 15, marginTop: 2 }}>
-              {lastPosition.level} Kanji nomor {lastPosition.nomor}
+              {CONTINUE_LABEL[lastPosition.type]} {formatContinueSubtitle(lastPosition.type, lastPosition.level)}
             </div>
           </div>
-          <span className="btn btn-primary" style={{ pointerEvents: 'none' }}>Lanjutkan Belajar →</span>
+          <span className="btn btn-primary" style={{ pointerEvents: 'none' }}>Lanjutkan →</span>
         </button>
       )}
 
+      <div className="home-section-title">Kanji</div>
       <div className="flex-col gap-16">
-        <LevelCard level="N5" subtitle="Kanji tingkat dasar" total={n5.length} color="#2563EB" />
-        <LevelCard level="N4" subtitle="Kanji tingkat pemula-menengah" total={n4.length} color="#0EA5E9" />
-        <button className="card card-tappable level-card" style={{ '--accent': '#7C3AED' }} onClick={() => navigate('/kotoba')}>
-          <span className="level-card-icon" aria-hidden="true">🈶</span>
-          <span className="level-card-title">Kotoba Mina no Nihongo</span>
-          <span className="level-card-subtitle text-muted">Kosakata Bab 1 - 50</span>
-        </button>
+        <LevelCard level="N5" subtitle="Kanji tingkat dasar" total={kanjiN5.length} unitLabel="kanji" color="#2563EB" to="/level/N5" />
+        <LevelCard level="N4" subtitle="Kanji tingkat pemula-menengah" total={kanjiN4.length} unitLabel="kanji" color="#0EA5E9" to="/level/N4" />
+      </div>
+
+      <div className="home-section-title">Kosakata</div>
+      <div className="flex-col gap-16">
+        <LevelCard title="Kosakata N5" subtitle="Kosakata tingkat dasar" total={kosakataN5.length} unitLabel="kata" color="#059669" icon="📗" to="/kosakata/N5" />
+        <LevelCard title="Kosakata N4" subtitle="Kosakata tingkat pemula-menengah" total={kosakataN4.length} unitLabel="kata" color="#0D9488" icon="📗" to="/kosakata/N4" />
+      </div>
+
+      <div className="home-section-title">Kotoba Mina no Nihongo</div>
+      <div className="flex-col gap-16">
+        <LevelCard title="Kotoba Mina no Nihongo" subtitle="Kosakata Bab 1 - 50" color="#7C3AED" icon="🈶" to="/kotoba" />
+      </div>
+
+      <div className="home-section-title">Modul Lainnya</div>
+      <div className="flex-col gap-16">
+        <LevelCard title="Tata Bahasa" subtitle="Pola kalimat N5 · N4" color="#F59E0B" icon="文" disabled />
+        <LevelCard title="Reading" subtitle="Bacaan & pemahaman N5 · N4" color="#16A34A" icon="読" disabled />
+        <LevelCard title="Listening" subtitle="Latihan mendengarkan N5 · N4" color="#DC2626" icon="聴" disabled />
       </div>
 
       <div className="home-quick-links mt-24">

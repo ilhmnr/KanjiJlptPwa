@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import PageHeader from '../components/PageHeader.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import KotobaHero from '../components/KotobaHero.jsx';
@@ -10,6 +10,7 @@ import { useSwipe } from '../hooks/useSwipe';
 
 export default function KotobaStudy() {
   const { bab } = useParams(); // "all" atau nomor bab
+  const [params] = useSearchParams();
   const navigate = useNavigate();
   const isAll = bab === 'all';
 
@@ -17,13 +18,26 @@ export default function KotobaStudy() {
   const { data: babData } = useKotobaByBab(isAll ? 1 : bab);
   const list = isAll ? kotobaList : babData;
 
-  const { isFavorite, isLearned, toggleFavorite, toggleLearned } = useProgress();
+  const { isFavorite, isLearned, toggleFavorite, toggleLearned, saveLastPosition } = useProgress();
 
-  const [index, setIndex] = useState(0);
+  const startNomor = params.get('nomor');
+  const initialIndex = useMemo(() => {
+    if (startNomor) {
+      const idx = list.findIndex((k) => String(k.id) === String(startNomor) || String(k.nomor) === String(startNomor));
+      return idx >= 0 ? idx : 0;
+    }
+    return 0;
+  }, [list, startNomor]);
+
+  const [index, setIndex] = useState(initialIndex);
   const [direction, setDirection] = useState('none');
-  useEffect(() => setIndex(0), [bab]);
+  useEffect(() => setIndex(initialIndex), [bab, initialIndex]);
 
   const current = list[index];
+
+  useEffect(() => {
+    if (current) saveLastPosition('kotoba', isAll ? 'all' : bab, current.id);
+  }, [current, bab, isAll, saveLastPosition]);
 
   const goNext = () => { if (index < list.length - 1) { setDirection('left'); setIndex((i) => i + 1); } };
   const goPrev = () => { if (index > 0) { setDirection('right'); setIndex((i) => i - 1); } };

@@ -57,9 +57,10 @@ export function useProgress() {
     });
   }, [setProgress]);
 
-  // Simpan posisi terakhir belajar, ditampilkan sebagai tombol "Lanjutkan Belajar" di beranda
-  const saveLastPosition = useCallback((level, nomor) => {
-    setLastPosition({ level, nomor, timestamp: Date.now() });
+  // Simpan posisi terakhir belajar, ditampilkan sebagai tombol "Lanjutkan Belajar" di beranda.
+  // type: 'kanji' | 'kosakata' | 'tatabahasa'
+  const saveLastPosition = useCallback((type, level, nomor) => {
+    setLastPosition({ type, level, nomor, timestamp: Date.now() });
   }, [setLastPosition]);
 
   const learnedCount = Object.values(progress).filter((p) => p.learned).length;

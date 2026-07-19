@@ -40,6 +40,26 @@ CREATE TABLE IF NOT EXISTS kotoba (
 CREATE INDEX IF NOT EXISTS idx_kotoba_bab ON kotoba(bab);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_kotoba_bab_nomor ON kotoba(bab, nomor);
 
+-- Tabel kosakata JLPT (N5/N4), materi orisinal berbasis silabus JLPT (bukan dari buku tertentu)
+CREATE TABLE IF NOT EXISTS kosakata (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  level TEXT NOT NULL CHECK (level IN ('N5', 'N4')),
+  nomor INTEGER NOT NULL,
+  kata TEXT NOT NULL,                       -- kata dalam hiragana/katakana, contoh: たべる
+  kanji TEXT,                                -- bentuk kanji jika ada, "-" jika tidak ada
+  hiragana TEXT,                             -- cara baca
+  romaji TEXT,
+  arti TEXT NOT NULL,
+  kelas_kata TEXT,                           -- kata benda / kata kerja / kata sifat / dst
+  contoh_kalimat TEXT,                       -- kalimat contoh orisinal
+  contoh_hiragana TEXT,
+  contoh_arti TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_kosakata_level ON kosakata(level);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_kosakata_level_nomor ON kosakata(level, nomor);
+
 -- Tabel user sederhana (untuk fitur sinkronisasi akun di masa depan)
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,             -- uuid, dibuat di sisi client atau saat registrasi

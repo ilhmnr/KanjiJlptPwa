@@ -55,7 +55,7 @@ export default function Study() {
 
   // Simpan posisi terakhir belajar setiap kali kanji berganti
   useEffect(() => {
-    if (current) saveLastPosition(level, current.nomor);
+    if (current) saveLastPosition('kanji', level, current.nomor);
   }, [current, level, saveLastPosition]);
 
   const goNext = () => {

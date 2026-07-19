@@ -614,3 +614,35 @@ img { max-width: 100%; display: block; }
 }
 .section-item-empty { opacity: 0.5; }
 .section-item-status.empty { color: var(--color-text-muted); }
+
+/* -------------------- Grammar (Tata Bahasa) -------------------- */
+.grammar-pola {
+  font-size: clamp(26px, 8vw, 38px);
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 4px 0 16px;
+  text-align: center;
+}
+.grammar-penjelasan { font-size: 14.5px !important; font-weight: 500 !important; line-height: 1.5; text-align: left; }
+
+/* -------------------- SpeakButton -------------------- */
+.speak-btn { margin: 4px 0 4px; font-size: 13px; padding: 8px 16px; }
+
+/* -------------------- LevelCard variants (disabled / roadmap) -------------------- */
+.level-card-disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.level-card-badge-soon {
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+.home-section-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  margin: 22px 0 10px;
+}
+.home-section-title:first-of-type { margin-top: 0; }

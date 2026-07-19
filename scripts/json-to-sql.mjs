@@ -57,3 +57,24 @@ function buildKotobaInsert(rows) {
   writeFileSync(outPath, sql, 'utf-8');
   console.log(`Generated ${outPath} (${data.length} kotoba)`);
 }
+
+// --- Kosakata JLPT N5/N4 ---
+function buildKosakataInsert(rows) {
+  const cols = [
+    'level', 'nomor', 'kata', 'kanji', 'hiragana', 'romaji',
+    'arti', 'kelas_kata', 'contoh_kalimat', 'contoh_hiragana', 'contoh_arti'
+  ];
+  const values = rows.map(r => `(${cols.map(c => esc(r[c])).join(', ')})`).join(',\n  ');
+  return `INSERT INTO kosakata (${cols.join(', ')}) VALUES\n  ${values};\n`;
+}
+
+for (const level of ['n5', 'n4']) {
+  const jsonPath = path.join(DB_DIR, `kosakata_${level}.json`);
+  const data = JSON.parse(readFileSync(jsonPath, 'utf-8'));
+  const sql = `-- Auto-generated dari kosakata_${level}.json — jangan edit manual, edit file JSON lalu jalankan ulang script ini\n` +
+    `DELETE FROM kosakata WHERE level = '${level.toUpperCase()}';\n` +
+    buildKosakataInsert(data);
+  const outPath = path.join(DB_DIR, `seed_kosakata_${level}.sql`);
+  writeFileSync(outPath, sql, 'utf-8');
+  console.log(`Generated ${outPath} (${data.length} kosakata)`);
+}

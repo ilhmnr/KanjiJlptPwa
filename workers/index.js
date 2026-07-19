@@ -1,10 +1,12 @@
 /**
- * Cloudflare Worker - API untuk Aplikasi Kanji JLPT
+ * Cloudflare Worker - API untuk Aplikasi JLPT N5 & N4
  * ---------------------------------------------------
  * Endpoint yang tersedia:
  *   GET  /api/kanji?level=N5              -> daftar semua kanji pada level tertentu
  *   GET  /api/kanji?level=N5&search=besar -> pencarian (kanji/arti/onyomi/kunyomi)
  *   GET  /api/kanji/:id                   -> detail 1 kanji
+ *   GET  /api/kosakata?level=N5           -> daftar kosakata JLPT pada level tertentu
+ *   GET  /api/kotoba?bab=1                -> daftar kosakata Minna no Nihongo per bab
  *   GET  /api/stats?level=N5              -> statistik jumlah kanji per level
  *   POST /api/progress                    -> simpan/update progress belajar user (sinkronisasi)
  *   GET  /api/progress/:userId            -> ambil semua progress milik user
@@ -51,6 +53,11 @@ export default {
       // GET /api/kotoba  (kosakata Minna no Nihongo, filter dengan ?bab=1)
       if (pathname === '/api/kotoba' && method === 'GET') {
         return await handleGetKotobaList(url, env);
+      }
+
+      // GET /api/kosakata  (kosakata JLPT N5/N4, filter dengan ?level=N5)
+      if (pathname === '/api/kosakata' && method === 'GET') {
+        return await handleGetKosakataList(url, env);
       }
 
       // GET /api/stats
@@ -132,6 +139,35 @@ async function handleGetKotobaList(url, env) {
   }
 
   query += ' ORDER BY bab, nomor ASC';
+
+  const { results } = await env.DB.prepare(query).bind(...params).all();
+  return jsonResponse({ data: results, total: results.length });
+}
+
+async function handleGetKosakataList(url, env) {
+  const level = url.searchParams.get('level');
+  const search = url.searchParams.get('search');
+  const from = url.searchParams.get('from');
+  const to = url.searchParams.get('to');
+
+  let query = 'SELECT * FROM kosakata WHERE 1=1';
+  const params = [];
+
+  if (level) {
+    query += ' AND level = ?';
+    params.push(level);
+  }
+  if (search) {
+    query += ' AND (kata LIKE ? OR arti LIKE ? OR romaji LIKE ? OR hiragana LIKE ?)';
+    const like = `%${search}%`;
+    params.push(like, like, like, like);
+  }
+  if (from && to) {
+    query += ' AND nomor BETWEEN ? AND ?';
+    params.push(Number(from), Number(to));
+  }
+
+  query += ' ORDER BY level, nomor ASC';
 
   const { results } = await env.DB.prepare(query).bind(...params).all();
   return jsonResponse({ data: results, total: results.length });

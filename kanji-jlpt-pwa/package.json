@@ -1,0 +1,31 @@
+{
+  "name": "kanji-jlpt-pwa",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "PWA untuk menghafal Kanji JLPT N5 & N4 — React + Vite + Cloudflare (Pages/Workers/D1)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "worker:dev": "wrangler dev workers/index.js",
+    "worker:deploy": "wrangler deploy workers/index.js",
+    "db:create": "wrangler d1 create kanji-db",
+    "db:migrate": "wrangler d1 execute kanji-db --file=src/database/schema.sql",
+    "db:migrate:remote": "wrangler d1 execute kanji-db --remote --file=src/database/schema.sql",
+    "db:seed:n5": "wrangler d1 execute kanji-db --remote --file=src/database/seed_n5.sql",
+    "db:seed:n4": "wrangler d1 execute kanji-db --remote --file=src/database/seed_n4.sql",
+    "pages:deploy": "vite build && wrangler pages deploy dist --project-name=kanji-jlpt-pwa"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.6",
+    "vite-plugin-pwa": "^0.20.5",
+    "wrangler": "^3.78.0"
+  }
+}
