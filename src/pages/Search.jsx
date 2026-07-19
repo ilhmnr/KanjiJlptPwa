@@ -5,17 +5,22 @@ import VocabListItem from '../components/VocabListItem.jsx';
 import { useKanjiData } from '../hooks/useKanjiData';
 import { useKosakataData } from '../hooks/useKosakataData';
 import { useKotobaData } from '../hooks/useKotobaData';
+import { useGrammarData } from '../hooks/useGrammarData';
 import { useProgress } from '../hooks/useProgress';
 
 export default function Search() {
   const { kanjiList } = useKanjiData();
   const { kosakataList } = useKosakataData();
   const { kotobaList } = useKotobaData();
+  const { grammarList } = useGrammarData();
   const { isFavorite, isLearned } = useProgress();
   const [query, setQuery] = useState('');
 
-  // Gabungkan ketiga sumber data supaya pencarian mencakup seluruh materi (Kanji, Kosakata, Kotoba)
-  const allItems = useMemo(() => [...kanjiList, ...kosakataList, ...kotobaList], [kanjiList, kosakataList, kotobaList]);
+  // Gabungkan seluruh sumber data supaya pencarian mencakup semua materi (Kanji, Kosakata, Kotoba, Tata Bahasa)
+  const allItems = useMemo(
+    () => [...kanjiList, ...kosakataList, ...kotobaList, ...grammarList],
+    [kanjiList, kosakataList, kotobaList, grammarList]
+  );
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -25,7 +30,10 @@ export default function Search() {
       k.kanji?.includes(raw) ||
       k.kata?.includes(raw) ||
       k.kotoba?.includes(raw) ||
+      k.pola?.includes(raw) ||
       k.arti?.toLowerCase().includes(q) ||
+      k.arti_pola?.toLowerCase().includes(q) ||
+      k.penjelasan?.toLowerCase().includes(q) ||
       k.onyomi?.toLowerCase().includes(q) ||
       k.kunyomi?.toLowerCase().includes(q) ||
       k.furigana?.toLowerCase().includes(q) ||
@@ -38,7 +46,7 @@ export default function Search() {
   return (
     <div className="page">
       <PageHeader title="Cari" showBack={false} />
-      <SearchBar value={query} onChange={setQuery} placeholder="Cari kanji, kosakata, arti, romaji..." />
+      <SearchBar value={query} onChange={setQuery} placeholder="Cari kanji, kosakata, pola, arti, romaji..." />
 
       <div className="mt-16">
         {query && results.length === 0 && (
@@ -49,7 +57,7 @@ export default function Search() {
         ))}
         {!query && (
           <p className="text-muted" style={{ fontSize: 13.5, textAlign: 'center', marginTop: 40 }}>
-            Ketik kanji, kosakata, arti, atau romaji untuk mencari di semua materi (Kanji, Kosakata, Kotoba).
+            Ketik kanji, kosakata, pola kalimat, arti, atau romaji untuk mencari di semua materi (Kanji, Kosakata, Kotoba, Tata Bahasa).
           </p>
         )}
       </div>

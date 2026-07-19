@@ -2,43 +2,38 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import PageHeader from '../components/PageHeader.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
-import VocabHero from '../components/VocabHero.jsx';
+import GrammarHero from '../components/GrammarHero.jsx';
 import StudyNavButtons from '../components/StudyNavButtons.jsx';
-import { useKosakataByLevel } from '../hooks/useKosakataData';
+import { useGrammarByLevel } from '../hooks/useGrammarData';
 import { useProgress } from '../hooks/useProgress';
 import { useSwipe } from '../hooks/useSwipe';
 
 const FILTERS = {
   all: () => true,
-  new: (k, isL) => !isL(k.id),
-  favorite: (k, isL, isF) => isF(k.id),
-  learned: (k, isL) => isL(k.id)
+  new: (g, isL) => !isL(g.id),
+  favorite: (g, isL, isF) => isF(g.id),
+  learned: (g, isL) => isL(g.id)
 };
 
-export default function KosakataStudy() {
+export default function GrammarStudy() {
   const { level } = useParams();
   const [params] = useSearchParams();
   const navigate = useNavigate();
-  const { data } = useKosakataByLevel(level);
+  const { data } = useGrammarByLevel(level);
   const { isFavorite, isLearned, toggleFavorite, toggleLearned, saveLastPosition } = useProgress();
 
-  const from = params.get('from');
-  const to = params.get('to');
   const startNomor = params.get('nomor');
   const filterKey = params.get('filter') || 'all';
 
   const list = useMemo(() => {
-    let filtered = data;
-    if (from && to) filtered = filtered.filter((k) => k.nomor >= Number(from) && k.nomor <= Number(to));
     const filterFn = FILTERS[filterKey] || FILTERS.all;
-    filtered = filtered.filter((k) => filterFn(k, isLearned, isFavorite));
-    return filtered;
+    return data.filter((g) => filterFn(g, isLearned, isFavorite));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, from, to, filterKey]);
+  }, [data, filterKey]);
 
   const initialIndex = useMemo(() => {
     if (startNomor) {
-      const idx = list.findIndex((k) => String(k.nomor) === String(startNomor));
+      const idx = list.findIndex((g) => String(g.nomor) === String(startNomor));
       return idx >= 0 ? idx : 0;
     }
     return 0;
@@ -51,7 +46,7 @@ export default function KosakataStudy() {
   const current = list[index];
 
   useEffect(() => {
-    if (current) saveLastPosition('kosakata', level, current.nomor);
+    if (current) saveLastPosition('tatabahasa', level, current.nomor);
   }, [current, level, saveLastPosition]);
 
   const goNext = () => { if (index < list.length - 1) { setDirection('left'); setIndex((i) => i + 1); } };
@@ -61,9 +56,9 @@ export default function KosakataStudy() {
   if (list.length === 0) {
     return (
       <div className="page">
-        <PageHeader title={`Kosakata ${level}`} />
+        <PageHeader title={`Tata Bahasa ${level}`} />
         <div className="empty-state">
-          <p>Tidak ada kata pada rentang/filter ini.</p>
+          <p>Tidak ada pola kalimat pada filter ini.</p>
           <button className="btn btn-primary mt-16" onClick={() => navigate(-1)}>Kembali</button>
         </div>
       </div>
@@ -72,10 +67,10 @@ export default function KosakataStudy() {
 
   return (
     <div className="page study-page">
-      <PageHeader title={`Kosakata ${level}`} />
-      <ProgressBar level={level} current={index + 1} total={list.length} unitLabel="Kata" />
+      <PageHeader title={`Tata Bahasa ${level}`} />
+      <ProgressBar level={level} current={index + 1} total={list.length} unitLabel="Pola" />
       <div className={`study-swipe-area anim-${direction}`} key={current.id} {...swipeHandlers}>
-        <VocabHero
+        <GrammarHero
           item={current}
           isFavorite={isFavorite(current.id)}
           isLearned={isLearned(current.id)}

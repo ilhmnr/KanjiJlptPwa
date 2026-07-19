@@ -4,15 +4,20 @@ import VocabListItem from '../components/VocabListItem.jsx';
 import { useKanjiData } from '../hooks/useKanjiData';
 import { useKosakataData } from '../hooks/useKosakataData';
 import { useKotobaData } from '../hooks/useKotobaData';
+import { useGrammarData } from '../hooks/useGrammarData';
 import { useProgress } from '../hooks/useProgress';
 
 export default function Favorites() {
   const { kanjiList } = useKanjiData();
   const { kosakataList } = useKosakataData();
   const { kotobaList } = useKotobaData();
+  const { grammarList } = useGrammarData();
   const { favoriteIds, isFavorite, isLearned } = useProgress();
 
-  const allItems = useMemo(() => [...kanjiList, ...kosakataList, ...kotobaList], [kanjiList, kosakataList, kotobaList]);
+  const allItems = useMemo(
+    () => [...kanjiList, ...kosakataList, ...kotobaList, ...grammarList],
+    [kanjiList, kosakataList, kotobaList, grammarList]
+  );
 
   const favorites = useMemo(
     () => allItems.filter((k) => favoriteIds.includes(String(k.id)) || favoriteIds.includes(k.id)),
@@ -27,7 +32,7 @@ export default function Favorites() {
           <p>⭐</p>
           <p>Belum ada yang difavoritkan.</p>
           <p className="text-muted" style={{ fontSize: 13 }}>
-            Tekan ikon bintang saat belajar (Kanji, Kosakata, atau Kotoba) untuk menambahkannya ke sini.
+            Tekan ikon bintang saat belajar (Kanji, Kosakata, Kotoba, atau Tata Bahasa) untuk menambahkannya ke sini.
           </p>
         </div>
       ) : (

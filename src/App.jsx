@@ -25,6 +25,9 @@ import KotobaMenu from './pages/KotobaMenu.jsx';
 import KotobaBabList from './pages/KotobaBabList.jsx';
 import KotobaStudy from './pages/KotobaStudy.jsx';
 
+// Tata Bahasa
+import GrammarStudy from './pages/GrammarStudy.jsx';
+
 // Umum
 import Favorites from './pages/Favorites.jsx';
 import Stats from './pages/Stats.jsx';
@@ -41,7 +44,7 @@ export default function App() {
   }, [darkMode]);
 
   // Sembunyikan bottom nav di halaman mode belajar penuh layar (fokus tanpa distraksi)
-  const FULLSCREEN_PATHS = ['/study', '/flashcard', '/quiz/play', '/kosakata-study', '/kosakata-quiz/play', '/kotoba/study'];
+  const FULLSCREEN_PATHS = ['/study', '/flashcard', '/quiz/play', '/kosakata-study', '/kosakata-quiz/play', '/kotoba/study', '/grammar/'];
   const hideNav = FULLSCREEN_PATHS.some((p) => location.pathname.startsWith(p));
 
   return (
@@ -68,6 +71,9 @@ export default function App() {
         <Route path="/kotoba" element={<KotobaMenu />} />
         <Route path="/kotoba/bab" element={<KotobaBabList />} />
         <Route path="/kotoba/study/:bab" element={<KotobaStudy />} />
+
+        {/* Tata Bahasa */}
+        <Route path="/grammar/:level" element={<GrammarStudy />} />
 
         {/* Umum */}
         <Route path="/favorites" element={<Favorites />} />

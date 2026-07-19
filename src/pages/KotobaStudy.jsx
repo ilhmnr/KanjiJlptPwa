@@ -60,7 +60,7 @@ export default function KotobaStudy() {
   return (
     <div className="page study-page">
       <PageHeader title={title} />
-      <ProgressBar level={isAll ? 'Semua Bab' : `Bab ${bab}`} current={index + 1} total={list.length} />
+      <ProgressBar level={isAll ? 'Semua Bab' : `Bab ${bab}`} current={index + 1} total={list.length} unitLabel="Kata" />
 
       <div className={`study-swipe-area anim-${direction}`} key={current.id} {...swipeHandlers}>
         <KotobaHero

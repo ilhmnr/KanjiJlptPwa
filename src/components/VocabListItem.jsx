@@ -8,6 +8,7 @@ function getItemMeta(item) {
     return {
       char: item.kanji,
       reading: [item.onyomi, item.kunyomi].filter(Boolean).join(' · '),
+      arti: item.arti,
       badge: item.level,
       route: `/study/${item.level}?nomor=${item.nomor}`
     };
@@ -16,6 +17,7 @@ function getItemMeta(item) {
     return {
       char: item.kata,
       reading: item.romaji,
+      arti: item.arti,
       badge: `Kosakata ${item.level}`,
       route: `/kosakata-study/${item.level}?nomor=${item.nomor}`
     };
@@ -24,11 +26,21 @@ function getItemMeta(item) {
     return {
       char: item.kotoba,
       reading: item.romaji,
+      arti: item.arti,
       badge: `Bab ${item.bab}`,
       route: `/kotoba/study/${item.bab}?nomor=${item.id}`
     };
   }
-  return { char: '?', reading: '', badge: '', route: '/' };
+  if (item.pola !== undefined) {
+    return {
+      char: item.pola,
+      reading: item.arti_pola,
+      arti: item.arti_pola,
+      badge: `Tata Bahasa ${item.level}`,
+      route: `/grammar/${item.level}?nomor=${item.nomor}`
+    };
+  }
+  return { char: '?', reading: '', arti: '', badge: '', route: '/' };
 }
 
 export default function VocabListItem({ item, isFavorite, isLearned }) {
@@ -39,7 +51,7 @@ export default function VocabListItem({ item, isFavorite, isLearned }) {
     <button className="card card-tappable kanji-list-item" onClick={() => navigate(meta.route)}>
       <div className="kanji-list-char font-jp">{meta.char}</div>
       <div className="kanji-list-info">
-        <div className="kanji-list-arti">{item.arti}</div>
+        <div className="kanji-list-arti">{meta.arti}</div>
         <div className="kanji-list-reading text-muted font-jp">{meta.reading}</div>
       </div>
       <div className="kanji-list-badges">

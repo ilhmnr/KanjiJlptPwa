@@ -5,14 +5,16 @@ import DarkModeToggle from '../components/DarkModeToggle.jsx';
 import { useProgress } from '../hooks/useProgress';
 import { useKanjiByLevel } from '../hooks/useKanjiData';
 import { useKosakataByLevel } from '../hooks/useKosakataData';
+import { useGrammarByLevel } from '../hooks/useGrammarData';
 
 // Bangun rute "Lanjutkan Belajar" sesuai jenis materi yang terakhir dipelajari
 const CONTINUE_ROUTE = {
   kanji: (level, nomor) => `/study/${level}?nomor=${nomor}`,
   kosakata: (level, nomor) => `/kosakata-study/${level}?nomor=${nomor}`,
-  kotoba: (level, nomor) => `/kotoba/study/${level}?nomor=${nomor}`
+  kotoba: (level, nomor) => `/kotoba/study/${level}?nomor=${nomor}`,
+  tatabahasa: (level, nomor) => `/grammar/${level}?nomor=${nomor}`
 };
-const CONTINUE_LABEL = { kanji: 'Kanji', kosakata: 'Kosakata', kotoba: 'Kotoba' };
+const CONTINUE_LABEL = { kanji: 'Kanji', kosakata: 'Kosakata', kotoba: 'Kotoba', tatabahasa: 'Tata Bahasa' };
 
 function formatContinueSubtitle(type, level) {
   if (type === 'kotoba') return level === 'all' ? 'Semua Bab' : `Bab ${level}`;
@@ -26,6 +28,8 @@ export default function Home() {
   const { data: kanjiN4 } = useKanjiByLevel('N4');
   const { data: kosakataN5 } = useKosakataByLevel('N5');
   const { data: kosakataN4 } = useKosakataByLevel('N4');
+  const { data: grammarN5 } = useGrammarByLevel('N5');
+  const { data: grammarN4 } = useGrammarByLevel('N4');
 
   return (
     <div className="page">
@@ -73,9 +77,14 @@ export default function Home() {
         <LevelCard title="Kotoba Mina no Nihongo" subtitle="Kosakata Bab 1 - 50" color="#7C3AED" icon="🈶" to="/kotoba" />
       </div>
 
+      <div className="home-section-title">Tata Bahasa</div>
+      <div className="flex-col gap-16">
+        <LevelCard title="Tata Bahasa N5" subtitle="Pola kalimat tingkat dasar" total={grammarN5.length} unitLabel="pola" color="#F59E0B" icon="文" to="/grammar/N5" />
+        <LevelCard title="Tata Bahasa N4" subtitle="Pola kalimat tingkat pemula-menengah" total={grammarN4.length} unitLabel="pola" color="#EA580C" icon="文" to="/grammar/N4" />
+      </div>
+
       <div className="home-section-title">Modul Lainnya</div>
       <div className="flex-col gap-16">
-        <LevelCard title="Tata Bahasa" subtitle="Pola kalimat N5 · N4" color="#F59E0B" icon="文" disabled />
         <LevelCard title="Reading" subtitle="Bacaan & pemahaman N5 · N4" color="#16A34A" icon="読" disabled />
         <LevelCard title="Listening" subtitle="Latihan mendengarkan N5 · N4" color="#DC2626" icon="聴" disabled />
       </div>
