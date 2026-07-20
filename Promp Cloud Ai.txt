@@ -1,0 +1,17 @@
+Saya sedang mengembangkan PWA belajar JLPT bernama KanjiJlptPwa, repo GitHub publik:
+https://github.com/ilhmnr/KanjiJlptPwa.git
+
+Tolong clone dulu repo ini untuk melihat kondisi terbaru sebelum lanjut (saya mungkin sudah push beberapa perubahan terakhir).
+
+Konteks project:
+- Stack: React 18 + Vite (frontend), Cloudflare Workers (API), Cloudflare D1/SQLite (database) — semua tier gratis
+- 6 modul: Kanji, Kosakata (JLPT N5/N4), Kotoba (Minna no Nihongo Bab 1-50), Tata Bahasa (pola kalimat N5/N4), Reading (bacaan + kuis pemahaman), Listening (dengar-lalu-jawab pakai Web Speech API browser)
+- Untuk PENGGUNAAN PRIBADI saja, bukan untuk dipublikasi ke App Store/Play Store — jadi tetap sebagai PWA (Add to Home Screen), TIDAK migrasi ke Flutter/Dart (sudah pernah dibahas dan diputuskan)
+
+Yang sudah dikerjakan bersama Claude di sesi sebelumnya (kemungkinan sudah ter-push ke repo, tolong cek dulu):
+1. Membuat & memperbaiki data kosakata "Kotoba Minna no Nihongo" (2.910 kata, Bab 1-50) dari PDF sumber — file kotoba_minna.json dan SQL seed (seed_kotoba.sql)
+2. Fix bug CSS: teks kotoba panjang meluber keluar layar HP (class .kotoba-big di src/styles/global.css)
+3. Menyambungkan modul Tata Bahasa ke Beranda + halaman belajar pola kalimat, plus masuk ke Favorit/Cari/Statistik
+4. Membangun modul Reading (daftar bacaan + kuis pemahaman) dan Listening (kuis dengar-lalu-jawab) dari nol, lalu menyambungkannya ke Beranda
+
+Tolong pelajari dulu struktur & kondisi repo saat ini, konfirmasi semua di atas sudah masuk dengan benar, baru kita lanjutkan.
